@@ -1,0 +1,51 @@
+group = 'com.iservport'
+
+version = '0.0.1-SNAPSHOT'
+
+description = """Eureka server"""
+
+buildscript {
+    ext {
+        springBootVersion = '1.3.5.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'scala'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+springBoot {
+    executable = true
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//test.onlyIf { ! Boolean.getBoolean('skip.tests') }
+test.onlyIf { false }
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.7'
+    compile group: 'org.springframework.boot',  name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka', version: '1.1.3.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka-server', version: '1.1.3.RELEASE'
+}
+
+// Create the wrapper support files by running 'gradle wrapper',
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}
