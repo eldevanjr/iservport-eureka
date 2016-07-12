@@ -1,6 +1,6 @@
 group = 'com.iservport'
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
 description = """Eureka server"""
 
@@ -15,11 +15,14 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'com.bmuschko:gradle-docker-plugin:3.0.1'
     }
 }
 
 apply plugin: 'scala'
 apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'com.bmuschko.docker-java-application'
 apply plugin: 'spring-boot'
 
 springBoot {
@@ -48,4 +51,14 @@ dependencies {
 // Create the wrapper support files by running 'gradle wrapper',
 task wrapper(type: Wrapper) {
     gradleVersion = '2.10'
+}
+
+docker {
+    url = 'https://192.168.99.100:2376'
+    certPath = new File(System.properties['user.home'], '.docker/machine/machines/default')
+    javaApplication {
+        baseImage = 'azul/zulu-openjdk:8'
+        maintainer = 'Maurício Fernandes de Castro "mauricio@iservport.com"'
+        tag = 'iservport/iservport-eureka'
+    }
 }
