@@ -54,11 +54,12 @@ task wrapper(type: Wrapper) {
 }
 
 docker {
-    url = 'https://192.168.99.100:2376'
+    url = 'https://192.168.99.101:2376'
     certPath = new File(System.properties['user.home'], '.docker/machine/machines/default')
     javaApplication {
         baseImage = 'azul/zulu-openjdk:8'
         maintainer = 'Maurício Fernandes de Castro "mauricio@iservport.com"'
+        port = 8761
         tag = 'iservport/iservport-eureka'
     }
 }
